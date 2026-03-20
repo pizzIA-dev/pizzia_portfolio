@@ -4,7 +4,8 @@ export default function ClientsScene({ onBack }) {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/clients/')
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+    fetch(`${API_URL}/api/clients/`)
       .then(res => res.json())
       .then(json => setClients(json))
       .catch(err => console.error(err));
