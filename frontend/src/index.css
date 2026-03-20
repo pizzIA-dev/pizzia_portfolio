@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-blue: #00a2ff;
+  --color-neon-light: #00d2ff;
+  --color-deep-dark: #0a0a0a;
+  --color-surface-dark: #151515;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-deep-dark);
+    color: white;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-3deg); }
+  50% { transform: translateY(-6px) rotate(0deg); }
+  75% { transform: translateY(-4px) rotate(3deg); }
+}
+
+.animate-float {
+  animation: float 2.5s ease-in-out infinite;
+}
+
+/* Custom classes for the game grid */
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+}
+
+.game-map {
+  position: relative;
+  background-color: #1a1a1a;
+  box-shadow: 0 0 20px rgba(0, 162, 255, 0.2);
+  border: 4px solid #00a2ff;
+  border-radius: 8px;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+.tile {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+}
+
+.player {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-color: #00d2ff;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+  z-index: 10;
+  box-shadow: 0 0 10px #00a2ff;
+}
+
+.building {
+  position: absolute;
+  border: 2px solid #00a2ff;
+  background-color: #151515;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #00d2ff;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: inset 0 0 10px rgba(0, 162, 255, 0.2);
+}
+
+.door {
+  position: absolute;
+  bottom: 0;
+  width: 32px;
+  height: 32px;
+  background-color: #000;
+  border: 1px solid #00a2ff;
+  border-bottom: none;
+}
