@@ -17,6 +17,7 @@ class Project(models.Model):
         ('Inteligencia Artificial', 'Inteligencia Artificial'),
         ('Automatización', 'Automatización'),
         ('Robótica', 'Robótica'),
+        ('Desarrollo de Videojuegos', 'Desarrollo de Videojuegos'),
     ]
     title = models.CharField(max_length=200, verbose_name="Título")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Aplicaciones Web', verbose_name="Categoría")

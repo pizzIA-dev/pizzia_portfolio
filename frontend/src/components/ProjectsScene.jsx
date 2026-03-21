@@ -6,7 +6,8 @@ const CATEGORIES = [
   'Análisis de Negocios',
   'Inteligencia Artificial',
   'Automatización',
-  'Robótica'
+  'Robótica',
+  'Desarrollo de Videojuegos'
 ];
 
 export default function ProjectsScene({ onBack }) {
