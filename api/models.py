@@ -19,8 +19,14 @@ class Project(models.Model):
         ('Robótica', 'Robótica'),
         ('Desarrollo de Videojuegos', 'Desarrollo de Videojuegos'),
     ]
+    STATUS_CHOICES = [
+        ('Culminado', 'Culminado'),
+        ('En progreso', 'En progreso'),
+        ('Abandonado', 'Abandonado'),
+    ]
     title = models.CharField(max_length=200, verbose_name="Título")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Aplicaciones Web', verbose_name="Categoría")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Culminado', verbose_name="Estado")
     summary = models.CharField(max_length=400, blank=True, verbose_name="Resumen (tarjeta)")
     description = models.TextField(blank=True, verbose_name="Descripción completa")
     client_name = models.CharField(max_length=200, blank=True, verbose_name="Cliente")

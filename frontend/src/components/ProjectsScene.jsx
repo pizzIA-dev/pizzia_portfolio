@@ -56,67 +56,87 @@ export default function ProjectsScene({ onBack }) {
           PROYECTOS
         </h1>
 
-        {/* Categories Tabs */}
-        <div className="flex overflow-x-auto whitespace-nowrap gap-3 mb-8 pb-3 scrollbar-hide snap-x">
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`snap-start shrink-0 px-4 py-2 text-xs md:text-sm font-bold tracking-widest uppercase transition-all border-b-2 ${
-                selectedCategory === cat
-                  ? 'text-[var(--color-neon-blue)] border-[var(--color-neon-blue)] bg-[var(--color-neon-blue)]/10 text-shadow-neon'
-                  : 'text-gray-400 border-transparent hover:text-white hover:border-gray-500'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Grid of Projects */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full">
-          {filteredProjects.map(p => (
-            <div
-              key={p.id}
-              onClick={() => setSelectedProject(p)}
-              className="cursor-pointer group relative"
-            >
-              <div className="bg-[#0d1520] border border-[var(--color-neon-blue)]/40 p-5 rounded-xl h-full flex flex-col transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(0,162,255,0.3)] group-hover:border-[var(--color-neon-blue)]">
-                {/* Image Preview */}
-                <div className="w-full h-44 bg-black flex items-center justify-center border border-[var(--color-neon-blue)]/30 mb-4 overflow-hidden rounded relative">
-                  {p.main_image_url ? (
-                    <img src={p.main_image_url} alt={p.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
-                  ) : (
-                    <span className="text-[var(--color-neon-blue)] text-xs font-bold">SIN IMAGEN</span>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-neon-blue)]/20 to-transparent pointer-events-none" />
-                </div>
-
-                <h3 className="text-xl font-bold text-[var(--color-neon-light)] mb-1 leading-tight">{p.title}</h3>
-                <p className="text-[0.65rem] text-[var(--color-neon-blue)]/70 font-mono uppercase tracking-[0.2em] mb-3">Cliente: {p.client_name}</p>
-
-                <p className="text-gray-300 text-sm mb-4 line-clamp-3 leading-relaxed">
-                  {p.summary || p.description?.substring(0, 120) + '...'}
-                </p>
-
-                <div className="mt-auto pt-4 flex items-center justify-between text-[0.65rem] font-black uppercase tracking-widest text-[var(--color-neon-blue)]">
-                  <span>Ver Detalle</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </div>
-              </div>
+        {/* Layout Grid: Sidebar + Content */}
+        <div className="flex flex-col lg:flex-row gap-8 w-full">
+          
+          {/* Left Sidebar: Categories */}
+          <div className="w-full lg:w-[250px] xl:w-[300px] shrink-0">
+            <h2 className="text-[var(--color-neon-blue)] font-black tracking-widest uppercase mb-4 text-sm border-b border-[var(--color-neon-blue)]/30 pb-2">Categorías</h2>
+            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-2 pb-4 lg:pb-0 scrollbar-hide snap-x">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`snap-start shrink-0 text-left px-4 py-3 text-xs md:text-sm font-bold tracking-widest uppercase transition-all rounded lg:rounded-none lg:border-l-4 lg:border-b-0 border-b-4 ${
+                    selectedCategory === cat
+                      ? 'text-[var(--color-neon-blue)] border-[var(--color-neon-blue)] bg-[var(--color-neon-blue)]/10 text-shadow-neon'
+                      : 'text-gray-400 border-transparent hover:text-white hover:border-gray-500 hover:bg-white/5'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
 
-          {/* Skeletons */}
-          {projects.length === 0 && [1, 2, 3].map(i => (
-            <div key={i} className="bg-[#0d1520] border border-[var(--color-neon-blue)]/20 p-5 rounded-xl animate-pulse h-80">
-              <div className="w-full h-44 bg-gray-900 border border-[var(--color-neon-blue)]/10 mb-4 rounded" />
-              <div className="h-6 bg-gray-800 rounded w-3/4 mb-2" />
-              <div className="h-3 bg-gray-800 rounded w-1/2 mb-4" />
-              <div className="h-3 bg-gray-800 rounded w-full mb-1" />
-              <div className="h-3 bg-gray-800 rounded w-5/6" />
+          {/* Right Area: Grid of Projects */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 w-full">
+              {filteredProjects.map(p => {
+                let statusColor = 'bg-green-500/20 text-green-400 border-green-500/50';
+                if (p.status === 'En progreso') statusColor = 'bg-yellow-500/20 text-yellow-500 border-yellow-500/50';
+                if (p.status === 'Abandonado') statusColor = 'bg-red-500/20 text-red-500 border-red-500/50';
+
+                return (
+                  <div
+                    key={p.id}
+                    onClick={() => setSelectedProject(p)}
+                    className="cursor-pointer group relative"
+                  >
+                    <div className="bg-[#0d1520] border border-[var(--color-neon-blue)]/40 p-5 rounded-xl h-full flex flex-col transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(0,162,255,0.3)] group-hover:border-[var(--color-neon-blue)]">
+                      {/* Image Preview */}
+                      <div className="w-full h-44 bg-black flex items-center justify-center border border-[var(--color-neon-blue)]/30 mb-4 overflow-hidden rounded relative">
+                        {p.main_image_url ? (
+                          <img src={p.main_image_url} alt={p.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
+                        ) : (
+                          <span className="text-[var(--color-neon-blue)] text-xs font-bold">SIN IMAGEN</span>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-neon-blue)]/20 to-transparent pointer-events-none" />
+                        
+                        {/* Status Badge */}
+                        <div className={`absolute top-2 right-2 px-2 py-1 text-[10px] font-black uppercase tracking-widest border rounded backdrop-blur-md shadow-lg ${statusColor}`}>
+                          {p.status || 'Culminado'}
+                        </div>
+                      </div>
+
+                      <h3 className="text-xl font-bold text-[var(--color-neon-light)] mb-1 leading-tight">{p.title}</h3>
+                      <p className="text-[0.65rem] text-[var(--color-neon-blue)]/70 font-mono uppercase tracking-[0.2em] mb-3">Cliente: {p.client_name}</p>
+
+                      <p className="text-gray-300 text-sm mb-4 line-clamp-3 leading-relaxed">
+                        {p.summary || p.description?.substring(0, 120) + '...'}
+                      </p>
+
+                      <div className="mt-auto pt-4 flex items-center justify-between text-[0.65rem] font-black uppercase tracking-widest text-[var(--color-neon-blue)]">
+                        <span>Ver Detalle</span>
+                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Skeletons */}
+              {projects.length === 0 && [1, 2, 3].map(i => (
+                <div key={i} className="bg-[#0d1520] border border-[var(--color-neon-blue)]/20 p-5 rounded-xl animate-pulse h-80">
+                  <div className="w-full h-44 bg-gray-900 border border-[var(--color-neon-blue)]/10 mb-4 rounded" />
+                  <div className="h-6 bg-gray-800 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-gray-800 rounded w-1/2 mb-4" />
+                  <div className="h-3 bg-gray-800 rounded w-full mb-1" />
+                  <div className="h-3 bg-gray-800 rounded w-5/6" />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
@@ -148,11 +168,25 @@ export default function ProjectsScene({ onBack }) {
                 <div className="flex-1">
                   <p className="text-[var(--color-neon-blue)] text-xs font-black uppercase tracking-[0.3em] mb-4 border-l-4 border-[var(--color-neon-blue)] pl-3">Detalle del Proyecto</p>
                   <h2 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tighter mb-4">{selectedProject.title}</h2>
-                  <div className="flex items-center gap-2 mb-6 text-sm font-bold text-[var(--color-neon-light)]">
-                    <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Cliente:</span>
-                    <span className="mr-4">{selectedProject.client_name}</span>
-                    <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Categoría:</span>
-                    <span className="text-[var(--color-neon-blue)] px-2 py-0.5 border border-[var(--color-neon-blue)]/30 rounded">{selectedProject.category || 'Aplicaciones Web'}</span>
+                  <div className="flex flex-wrap items-center gap-4 mb-6 text-sm font-bold text-[var(--color-neon-light)]">
+                    <div className="flex items-center gap-2">
+                      <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Estado:</span>
+                      <span className={`px-2 py-0.5 text-[0.7rem] tracking-widest uppercase border rounded shadow-md ${
+                        selectedProject.status === 'En progreso' ? 'bg-yellow-500/20 text-yellow-500 border-yellow-500/50 shadow-yellow-500/20' :
+                        selectedProject.status === 'Abandonado' ? 'bg-red-500/20 text-red-500 border-red-500/50 shadow-red-500/20' :
+                        'bg-green-500/20 text-green-400 border-green-500/50 shadow-green-500/20'
+                      }`}>
+                        {selectedProject.status || 'Culminado'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Cliente:</span>
+                      <span>{selectedProject.client_name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Categoría:</span>
+                      <span className="text-[var(--color-neon-blue)] px-2 py-0.5 border border-[var(--color-neon-blue)]/30 rounded">{selectedProject.category || 'Aplicaciones Web'}</span>
+                    </div>
                   </div>
 
                   {selectedProject.preview_link && (
