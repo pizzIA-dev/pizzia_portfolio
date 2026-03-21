@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
+const CATEGORIES = [
+  'Todos',
+  'Aplicaciones Web',
+  'Análisis de Negocios',
+  'Inteligencia Artificial',
+  'Automatización',
+  'Robótica'
+];
+
 export default function ProjectsScene({ onBack }) {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  const filteredProjects = selectedCategory === 'Todos' 
+    ? projects 
+    : projects.filter(p => p.category === selectedCategory);
 
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
@@ -37,13 +51,30 @@ export default function ProjectsScene({ onBack }) {
           ← VOLVER  <kbd className="ml-2 w-8 h-8 inline-flex items-center justify-center text-xs font-mono bg-[#151515] border border-[var(--color-neon-blue)]/80 border-b-2 rounded shadow-[0_2px_5px_rgba(0,162,255,0.3)]">ESC</kbd>
         </button>
 
-        <h1 className="text-3xl md:text-4xl font-black text-[var(--color-neon-blue)] uppercase tracking-widest bg-[#151515] px-6 py-2 border-l-4 border-[var(--color-neon-blue)] shadow-[0_0_15px_rgba(0,162,255,0.2)] mb-10 self-start mt-8">
+        <h1 className="text-3xl md:text-4xl font-black text-[var(--color-neon-blue)] uppercase tracking-widest bg-[#151515] px-6 py-2 border-l-4 border-[var(--color-neon-blue)] shadow-[0_0_15px_rgba(0,162,255,0.2)] mb-8 self-start mt-8">
           PROYECTOS
         </h1>
 
+        {/* Categories Tabs */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 text-xs md:text-sm font-bold tracking-widest uppercase transition-all border-b-2 ${
+                selectedCategory === cat
+                  ? 'text-[var(--color-neon-blue)] border-[var(--color-neon-blue)] bg-[var(--color-neon-blue)]/10 text-shadow-neon'
+                  : 'text-gray-400 border-transparent hover:text-white hover:border-gray-500'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
         {/* Grid of Projects */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full">
-          {projects.map(p => (
+          {filteredProjects.map(p => (
             <div
               key={p.id}
               onClick={() => setSelectedProject(p)}
@@ -118,7 +149,9 @@ export default function ProjectsScene({ onBack }) {
                   <h2 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tighter mb-4">{selectedProject.title}</h2>
                   <div className="flex items-center gap-2 mb-6 text-sm font-bold text-[var(--color-neon-light)]">
                     <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Cliente:</span>
-                    {selectedProject.client_name}
+                    <span className="mr-4">{selectedProject.client_name}</span>
+                    <span className="opacity-60 text-xs uppercase tracking-widest font-mono">Categoría:</span>
+                    <span className="text-[var(--color-neon-blue)] px-2 py-0.5 border border-[var(--color-neon-blue)]/30 rounded">{selectedProject.category || 'Aplicaciones Web'}</span>
                   </div>
 
                   {selectedProject.preview_link && (

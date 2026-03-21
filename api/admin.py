@@ -21,14 +21,14 @@ class ProjectImageInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'client_name', 'order', 'main_image_preview', 'has_link', 'created_at')
+    list_display = ('title', 'category', 'client_name', 'order', 'main_image_preview', 'has_link', 'created_at')
     list_editable = ('order',)
-    list_filter = ('client_name',)
+    list_filter = ('category', 'client_name',)
     search_fields = ('title', 'client_name', 'summary')
     inlines = [ProjectImageInline]
     fieldsets = (
         ("Información principal", {
-            "fields": ("title", "summary", "description", "order"),
+            "fields": ("title", "category", "summary", "description", "order"),
         }),
         ("Cliente e impacto", {
             "fields": ("client_name", "results"),

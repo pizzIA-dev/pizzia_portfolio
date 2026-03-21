@@ -11,7 +11,15 @@ class About(models.Model):
 
 
 class Project(models.Model):
+    CATEGORY_CHOICES = [
+        ('Aplicaciones Web', 'Aplicaciones Web'),
+        ('Análisis de Negocios', 'Análisis de Negocios'),
+        ('Inteligencia Artificial', 'Inteligencia Artificial'),
+        ('Automatización', 'Automatización'),
+        ('Robótica', 'Robótica'),
+    ]
     title = models.CharField(max_length=200, verbose_name="Título")
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Aplicaciones Web', verbose_name="Categoría")
     summary = models.CharField(max_length=400, blank=True, verbose_name="Resumen (tarjeta)")
     description = models.TextField(blank=True, verbose_name="Descripción completa")
     client_name = models.CharField(max_length=200, blank=True, verbose_name="Cliente")

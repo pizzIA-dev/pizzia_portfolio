@@ -11,7 +11,7 @@ class AboutViewSet(viewsets.ModelViewSet):
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all()
+    queryset = Project.objects.prefetch_related('images').all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
