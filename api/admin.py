@@ -58,8 +58,14 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'industry')
+    list_display = ('name', 'industry', 'logo_preview')
     search_fields = ('name',)
+
+    def logo_preview(self, obj):
+        if obj.logo:
+            return format_html('<img src="{}" style="height:40px;border-radius:20px;" />', obj.logo.url)
+        return "—"
+    logo_preview.short_description = "Logo"
 
 
 @admin.register(About)

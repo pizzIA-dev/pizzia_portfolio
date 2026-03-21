@@ -73,8 +73,8 @@ class ProjectImage(models.Model):
 
 class Client(models.Model):
     name = models.CharField(max_length=200)
-    industry = models.CharField(max_length=200, blank=True, null=True)
-    logo_url = models.CharField(max_length=500, blank=True, null=True)
+    industry = models.CharField(max_length=200, blank=True, null=True, verbose_name="Industria")
+    logo = models.ImageField(upload_to="clients/logos/", blank=True, null=True, verbose_name="Logo")
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
