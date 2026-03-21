@@ -57,12 +57,12 @@ export default function ProjectsScene({ onBack }) {
         </h1>
 
         {/* Categories Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex overflow-x-auto whitespace-nowrap gap-3 mb-8 pb-3 scrollbar-hide snap-x">
           {CATEGORIES.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 text-xs md:text-sm font-bold tracking-widest uppercase transition-all border-b-2 ${
+              className={`snap-start shrink-0 px-4 py-2 text-xs md:text-sm font-bold tracking-widest uppercase transition-all border-b-2 ${
                 selectedCategory === cat
                   ? 'text-[var(--color-neon-blue)] border-[var(--color-neon-blue)] bg-[var(--color-neon-blue)]/10 text-shadow-neon'
                   : 'text-gray-400 border-transparent hover:text-white hover:border-gray-500'
