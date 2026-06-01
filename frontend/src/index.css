@@ -12,10 +12,22 @@
     background-color: var(--color-deep-dark);
     color: white;
     font-family: ui-sans-serif, system-ui, sans-serif;
-    overflow: hidden;
     margin: 0;
     padding: 0;
   }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-250px * 7)); }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
 }
 
 @keyframes float {

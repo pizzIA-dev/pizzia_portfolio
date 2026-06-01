@@ -2,6 +2,39 @@ import React, { useState, useEffect } from 'react';
 
 export default function ClientsScene({ onBack }) {
   const [clients, setClients] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
+
+  const totalPages = Math.ceil(clients.length / ITEMS_PER_PAGE);
+  const paginatedClients = clients.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  // Pagination Helper UI
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+    return (
+      <div className="flex justify-center items-center gap-4 mt-12 w-full">
+        <button 
+          onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+          disabled={currentPage === 1}
+          className="px-4 py-2 border border-[var(--color-neon-blue)]/50 text-[var(--color-neon-blue)] rounded-lg disabled:opacity-30 hover:bg-[var(--color-neon-blue)]/10 transition-colors cursor-pointer disabled:cursor-not-allowed"
+        >
+          ← Anterior
+        </button>
+        <div className="flex items-center gap-2 text-sm font-mono text-gray-400">
+          <span className="text-[var(--color-neon-light)] font-bold text-lg">{currentPage}</span> 
+          <span>de</span> 
+          <span>{totalPages}</span>
+        </div>
+        <button 
+          onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 border border-[var(--color-neon-blue)]/50 text-[var(--color-neon-blue)] rounded-lg disabled:opacity-30 hover:bg-[var(--color-neon-blue)]/10 transition-colors cursor-pointer disabled:cursor-not-allowed"
+        >
+          Siguiente →
+        </button>
+      </div>
+    );
+  };
 
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
@@ -36,7 +69,7 @@ export default function ClientsScene({ onBack }) {
         </h1>
 
         <div className="flex flex-wrap justify-center gap-14 w-full">
-          {clients.map(c => (
+          {paginatedClients.map(c => (
             <div key={c.id} className="flex flex-col items-center group">
               <div className="w-48 h-48 rounded-full border-2 border-[var(--color-neon-blue)] p-2 bg-[#050505] flex items-center justify-center overflow-hidden mb-4 shadow-[0_0_20px_rgba(0,162,255,0.25)] group-hover:border-white group-hover:shadow-[0_0_30px_rgba(0,162,255,0.5)] transition-all duration-300">
                 {c.logo_url ? (
@@ -59,6 +92,9 @@ export default function ClientsScene({ onBack }) {
             </div>
           ))}
         </div>
+
+        {/* Pagination Controls */}
+        {renderPagination()}
       </div>
     </div>
   );

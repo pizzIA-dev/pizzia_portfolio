@@ -5,6 +5,7 @@ import './index.css';
 import AboutScene from './components/AboutScene';
 import ProjectsScene from './components/ProjectsScene';
 import ClientsScene from './components/ClientsScene';
+import LandingPage from './pages/LandingPage';
 
 const TILE_SIZE = 32;
 const MAP_WIDTH = 25; 
@@ -77,13 +78,13 @@ const PizzaSprite = () => (
 );
 
 // URL path → scene name mapping
-const PATH_TO_SCENE = { '/': 'city', '/nosotros': 'about', '/proyectos': 'projects', '/clientes': 'clients' };
-const SCENE_TO_PATH = { city: '/', about: '/nosotros', projects: '/proyectos', clients: '/clientes' };
+const PATH_TO_SCENE = { '/': 'landing', '/game': 'city', '/nosotros': 'about', '/proyectos': 'projects', '/clientes': 'clients' };
+const SCENE_TO_PATH = { landing: '/', city: '/game', about: '/nosotros', projects: '/proyectos', clients: '/clientes' };
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentScene = PATH_TO_SCENE[location.pathname] ?? 'city';
+  const currentScene = PATH_TO_SCENE[location.pathname] ?? 'landing';
   
   const keys = useRef({});
   const requestRef = useRef();
@@ -383,9 +384,21 @@ function App() {
       {currentScene === 'projects' && <ProjectsScene onBack={() => { startTransition('city'); }} />}
       {currentScene === 'clients' && <ClientsScene onBack={() => { startTransition('city'); }} />}
 
+      {currentScene === 'landing' && <LandingPage onEnterGame={() => { navigate('/game'); }} />}
+
       {currentScene === 'city' && (
       <div className="game-container w-full h-[100dvh] flex items-center justify-center bg-[#02050a] overflow-hidden relative">
       
+      {/* Return to Landing Button */}
+      <div className="absolute top-4 left-4 z-50">
+        <button 
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 px-4 py-2 bg-black/80 text-[var(--color-neon-light)] font-bold rounded-lg border border-[var(--color-neon-light)]/50 hover:bg-[var(--color-neon-light)] hover:text-black transition-all shadow-[0_0_15px_rgba(0,162,255,0.3)] backdrop-blur-md cursor-pointer"
+        >
+          <span>← Volver a Inicio</span>
+        </button>
+      </div>
+
       {/* Floating Instructions Overlay */}
       <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-40 w-full max-w-3xl px-4 pointer-events-none flex justify-center">
         <div className="flex flex-wrap items-center justify-center gap-4 p-4 bg-black/80 border border-[var(--color-neon-blue)]/60 rounded-xl shadow-[0_0_15px_rgba(0,162,255,0.2)] backdrop-blur-md">

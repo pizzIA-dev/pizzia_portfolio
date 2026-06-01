@@ -1,0 +1,16 @@
+backend/
+api/
+manage.py
+requirements.txt
+.env*
+!frontend/.env*
+*.py
+__pycache__/
+*.pyc
+.DS_Store
+.git/
+.gitignore
+.railway/
+.railway.json
+.vercel/
+node_modules/
