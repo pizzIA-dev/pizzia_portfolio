@@ -14,10 +14,43 @@ export default function ProjectsScene({ onBack }) {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   const filteredProjects = selectedCategory === 'Todos' 
     ? projects 
     : projects.filter(p => p.category === selectedCategory);
+    
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const paginatedProjects = filteredProjects.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  // Pagination Helper UI
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+    return (
+      <div className="flex justify-center items-center gap-4 mt-8 w-full">
+        <button 
+          onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+          disabled={currentPage === 1}
+          className="px-4 py-2 border border-[var(--color-neon-blue)]/50 text-[var(--color-neon-blue)] rounded-lg disabled:opacity-30 hover:bg-[var(--color-neon-blue)]/10 transition-colors cursor-pointer disabled:cursor-not-allowed"
+        >
+          ← Anterior
+        </button>
+        <div className="flex items-center gap-2 text-sm font-mono text-gray-400">
+          <span className="text-[var(--color-neon-light)] font-bold text-lg">{currentPage}</span> 
+          <span>de</span> 
+          <span>{totalPages}</span>
+        </div>
+        <button 
+          onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 border border-[var(--color-neon-blue)]/50 text-[var(--color-neon-blue)] rounded-lg disabled:opacity-30 hover:bg-[var(--color-neon-blue)]/10 transition-colors cursor-pointer disabled:cursor-not-allowed"
+        >
+          Siguiente →
+        </button>
+      </div>
+    );
+  };
 
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
@@ -66,7 +99,10 @@ export default function ProjectsScene({ onBack }) {
               {CATEGORIES.map(cat => (
                 <button
                   key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setCurrentPage(1);
+                  }}
                   className={`snap-start shrink-0 text-left px-4 py-3 text-xs md:text-sm font-bold tracking-widest uppercase transition-all rounded lg:rounded-none lg:border-l-4 lg:border-b-0 border-b-4 ${
                     selectedCategory === cat
                       ? 'text-[var(--color-neon-blue)] border-[var(--color-neon-blue)] bg-[var(--color-neon-blue)]/10 text-shadow-neon'
@@ -82,7 +118,7 @@ export default function ProjectsScene({ onBack }) {
           {/* Right Area: Grid of Projects */}
           <div className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 w-full">
-              {filteredProjects.map(p => {
+              {paginatedProjects.map(p => {
                 let statusColor = 'bg-green-500/20 text-green-400 border-green-500/50';
                 if (p.status === 'En progreso') statusColor = 'bg-yellow-500/20 text-yellow-500 border-yellow-500/50';
                 if (p.status === 'Abandonado') statusColor = 'bg-red-500/20 text-red-500 border-red-500/50';
@@ -136,6 +172,9 @@ export default function ProjectsScene({ onBack }) {
                 </div>
               ))}
             </div>
+
+            {/* Pagination Controls */}
+            {renderPagination()}
           </div>
         </div>
       </div>
