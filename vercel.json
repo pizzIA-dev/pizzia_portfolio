@@ -15,20 +15,8 @@
       "dest": "https://pizzia-portfolio-api-production.up.railway.app/api/$1"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/frontend/assets/$1"
-    },
-    {
-      "src": "/logos/(.*)",
-      "dest": "/frontend/logos/$1"
-    },
-    {
-      "src": "/vite.svg",
-      "dest": "/frontend/vite.svg"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/frontend/favicon.ico"
+      "src": "/(.*\\.(png|jpe?g|svg|ico|json|css|js|woff2?|ttf|eot|webp|gif))$",
+      "dest": "/frontend/$1"
     },
     {
       "src": "/(.*)",
