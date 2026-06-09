@@ -391,7 +391,7 @@ export default function LandingPage({ onEnterGame }) {
               <div key={c.id} className="flex flex-col items-center group w-32 md:w-40">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-[var(--color-neon-blue)]/40 p-1 bg-[#0a0a0a] flex items-center justify-center overflow-hidden mb-5 shadow-lg group-hover:border-[var(--color-neon-light)] group-hover:shadow-[0_0_25px_rgba(0,162,255,0.4)] transition-all duration-300 group-hover:-translate-y-2">
                   {c.logo_url ? (
-                    <img src={c.logo_url} alt={c.name} className="w-full h-full object-cover rounded-full grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                    <img src={c.logo_url} alt={c.name} className="w-full h-full object-cover rounded-full transition-all duration-500" />
                   ) : (
                     <span className="text-3xl text-[var(--color-neon-blue)] font-bold">
                       {c.name?.charAt(0) ?? '?'}
