@@ -9,17 +9,18 @@
       }
     }
   ],
-  "outputDirectory": "frontend/dist",
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
-    }
-  ],
-  "rewrites": [
+      "src": "/api/(.*)",
+      "dest": "https://pizzia-portfolio-api-production.up.railway.app/api/$1"
+    },
     {
-      "source": "/api/(.*)",
-      "destination": "https://pizzia-backend.railway.app/api/$1"
+      "src": "/(.*\\.(png|jpe?g|svg|ico|json|css|js|woff2?|ttf|eot|webp|gif))$",
+      "dest": "/frontend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/index.html"
     }
   ]
 }

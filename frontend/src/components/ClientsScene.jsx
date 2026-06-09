@@ -73,7 +73,7 @@ export default function ClientsScene({ onBack }) {
             <div key={c.id} className="flex flex-col items-center group">
               <div className="w-48 h-48 rounded-full border-2 border-[var(--color-neon-blue)] p-2 bg-[#050505] flex items-center justify-center overflow-hidden mb-4 shadow-[0_0_20px_rgba(0,162,255,0.25)] group-hover:border-white group-hover:shadow-[0_0_30px_rgba(0,162,255,0.5)] transition-all duration-300">
                 {c.logo_url ? (
-                  <img src={c.logo_url} alt={c.name} className="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all duration-500" />
+                  <img src={c.logo_url} alt={c.name} className="w-full h-full object-cover rounded-full transition-all duration-500" />
                 ) : (
                   <span className="text-4xl text-[var(--color-neon-blue)] font-bold">
                     {c.name?.charAt(0) ?? '?'}
